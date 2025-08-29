@@ -5,6 +5,7 @@ import com.workintech.twitter_api.dto.LikeResponse;
 import com.workintech.twitter_api.entitiy.Like;
 import com.workintech.twitter_api.entitiy.Tweet;
 import com.workintech.twitter_api.entitiy.User;
+import com.workintech.twitter_api.exceptions.AlreadyLikedException;
 import com.workintech.twitter_api.exceptions.UserNotFoundException;
 import com.workintech.twitter_api.mapper.LikeMapper;
 import com.workintech.twitter_api.repository.LikeRepository;
@@ -38,6 +39,10 @@ public class LikeServiceImpl implements LikeService{
         Like like = likeMapper.toEntity(likeRequest);
         Optional<User> userOptional = userRepository.findById(likeRequest.userId());
         Optional<Tweet> tweetOptional = tweetRepository.findById(likeRequest.tweetId());
+
+        if(likeRepository.existsByUserAndTweet(userOptional.get(), tweetOptional.get())){
+            throw new AlreadyLikedException("Tweet Zaten Beğenilmiş.");
+        }
 
         if(userOptional.isPresent() && tweetOptional.isPresent()){
             like.setUser(userOptional.get());

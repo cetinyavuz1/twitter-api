@@ -11,7 +11,13 @@ import org.antlr.v4.runtime.misc.NotNull;
 @ToString
 @EqualsAndHashCode
 @Entity
-@Table(name = "like", schema = "twitter")
+@Table(
+        name = "like",
+        schema = "twitter",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"user_id", "tweet_id"})
+        }
+)
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
