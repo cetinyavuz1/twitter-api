@@ -1,4 +1,4 @@
 package com.workintech.twitter_api.dto;
 
-public record CommentResponse(String text, UserResponse userName) {
+public record CommentResponse(String userName, String text, Long id) {
 }

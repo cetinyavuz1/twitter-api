@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,11 +18,11 @@ public class Tweet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "text")
+    @Column(name = "text", nullable = false)
     @NotNull
     private String text;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
