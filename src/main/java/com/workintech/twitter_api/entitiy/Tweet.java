@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +27,12 @@ public class Tweet {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "tweet", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Like> likes;
+
+    @OneToMany(mappedBy = "tweet", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> comments;
 
     public long getId() {
         return id;
